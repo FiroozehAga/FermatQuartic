@@ -25,16 +25,33 @@ for j in [1, 3, 5, 7]
         println(L3);
     end
 end
-
+# Write a multi-dimensional array A collecting all these matrices as entries
+A= 
 # Generate matrices of the form (Lm | Ln)
 # Q = vcat(M, N)
-
+n = length(A);
+for i in 1:n
+    for j in 1:n
+        M = vcat(A[i], A[j]);
+    end
+end 
 # Compute rank of each of these matrices
 # rank (M)
-
 # if the rank of the matrix is 2 then save -2 as the (m,n)-th entry of a matrix M
 # if the rank of the matrix is 3 then save 1 as the (m,n)-th entry of a matrix M
 # if the rank of the matrix is 4 then save 0 as the (m,n)-th entry of a matrix M
 
-# Compute the rank of the 48x48 matrix
-# rank (IM)
+m = length (M);
+for i in 1:m
+    r = rank(M[i]);
+    if r == 2
+        m[i,j] = -2;
+    elseif r == 3
+        m[i,j] = 1;
+    else 
+        m[i,j] = 0;
+    end
+end
+# Compute the rank of the 48x48 matrix m
+# rank (m)
+println(rank(m));

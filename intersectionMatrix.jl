@@ -3,8 +3,9 @@
 
 using Printf
 using Hecke
-
-function rkFQ(a)
+# Below: a is an integer s.t output = rank of Intersection matrix if a=0 
+    #else returns the matrix as well as it's rank
+function rkFQ(a) 
     K, w= cyclotomic_field(8::Int);
     Kx, (x0, x1, x2, x3) = PolynomialRing(K, ["x0", "x1", "x2", "x3"]);
     function list(w)

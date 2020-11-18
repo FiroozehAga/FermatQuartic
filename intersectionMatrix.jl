@@ -4,9 +4,9 @@
 using Printf
 using Hecke
 
-K, w= cyclotomic_field(8::Int);
-Kx, (x0, x1, x2, x3) = PolynomialRing(K, ["x0", "x1", "x2", "x3"]);
-function rkFQ(w)
+function rkFQ(N)
+    K, w= cyclotomic_field(8::Int);
+    Kx, (x0, x1, x2, x3) = PolynomialRing(K, ["x0", "x1", "x2", "x3"]);
     function list(w)
         A = [] #empty array
         for j in [1, 3, 5, 7]
@@ -24,23 +24,26 @@ function rkFQ(w)
     # Generate matrices of the form (Lm | Ln)
     # Q = vcat(M, N)
     M = list(w);
-    function rk(M)
-        N = Array{Int64}(undef, 4,4);
-        Im = Array{Inf64}(undef, 48,48);
-        for i in 1:size(M)[1]
-            for j in 1:size(M)[1]
-                N = vcat(M[i], M[j]);
-                #rk = rank(N);
-                if rank(N) == 2  # if the rank of the matrix is 2 then save -2 as the (m,n)-th entry of a matrix M
-                    Im[j,i] = -2;
-                elseif rank(N) == 3  # if the rank of the matrix is 3 then save 1 as the (m,n)-th entry of a matrix M
-                    Im[j,i] = 1;
-                else  # if the rank of the matrix is 4 then save 0 as the (m,n)-th entry of a matrix M
-                    Im[j,i] = 0;
-                end
-                rank(Im);
+    N = Array{Int64}(undef, 4,4);
+    Im = Array{Int64}(undef, 48,48);    
+    for i in 1:size(M)[1]
+        for j in 1:size(M)[1]
+            N = vcat(M[i], M[j]);
+            #rk = rank(N);
+            if rank(N) == 2  # if the rank of the matrix is 2 then save -2 as the (m,n)-th entry of a matrix M
+                Im[i, j] = -2;
+            elseif rank(N) == 3  # if the rank of the matrix is 3 then save 1 as the (m,n)-th entry of a matrix M
+                Im[i, j] = 1;
+            else  # if the rank of the matrix is 4 then save 0 as the (m,n)-th entry of a matrix M
+                Im[i, j] = 0;
             end
-        end 
+        end
     end
-    return(rank(Im));
+    rk = println(rank(Im));
+    if N == 0
+        result = rk;   
+    else
+        result =  Im;
+    end
+    return result
 end

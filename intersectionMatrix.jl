@@ -4,7 +4,7 @@
 using Printf
 using Hecke
 
-function rkFQ(N)
+function rkFQ(a)
     K, w= cyclotomic_field(8::Int);
     Kx, (x0, x1, x2, x3) = PolynomialRing(K, ["x0", "x1", "x2", "x3"]);
     function list(w)
@@ -40,10 +40,10 @@ function rkFQ(N)
         end
     end
     rk = println(rank(Im));
-    if N == 0
+    if a == 0
         result = rk;   
     else
-        result =  Im;
+        result = Im;
     end
     return result
 end

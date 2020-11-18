@@ -6,7 +6,7 @@ using Hecke
 
 K, w= cyclotomic_field(8::Int);
 Kx, (x0, x1, x2, x3) = PolynomialRing(K, ["x0", "x1", "x2", "x3"]);
-function rk()
+#function rk()
     for j in [1, 3, 5, 7]
         for k in [1, 3, 5, 7]
             # Li are matrices with specific entries from the coefficient of the defining polynomial equations
@@ -16,10 +16,12 @@ function rk()
             #println(L2);
             L3 = matrix(K, [1 0 0 w^j; 0 1 w^k 0]); #L3[j, k] = V(x0 + w^j * x3, x1 + w^k * x2);
             #println(L3);
+            A= [L1, L2, L3]; 
+            println(A);
         end
     end
     # Write a multi-dimensional array A collecting all these matrices as entries
-    A= [L1, L2, L3];
+    #A= [L1, L2, L3];
     # Generate matrices of the form (Lm | Ln)
     # Q = vcat(M, N)
     n = length(A); #size of the array A
@@ -48,4 +50,4 @@ function rk()
     # Compute the rank of the 48x48 matrix IM
     # rank (IM)
     println(rank(IM));
-end
+#end

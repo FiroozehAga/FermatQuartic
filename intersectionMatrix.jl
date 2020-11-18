@@ -25,8 +25,8 @@ function rkFQ(w)
     # Q = vcat(M, N)
     M = list(w);
     function rk(M)
-        N = [];
-        Im = [];
+        N = Array{Int64}(undef, 4,4);
+        Im = Array{Inf64}(undef, 48,48);
         for i in 1:size(M)[1]
             for j in 1:size(M)[1]
                 N = vcat(M[i], M[j]);

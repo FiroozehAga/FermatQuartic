@@ -6,7 +6,7 @@ using Hecke
 
 K, w= cyclotomic_field(8::Int);
 Kx, (x0, x1, x2, x3) = PolynomialRing(K, ["x0", "x1", "x2", "x3"]);
-#function rk()
+function rkFQ(w)
     function list(w)
         A = [] #empty array
         for j in [1, 3, 5, 7]
@@ -20,36 +20,27 @@ Kx, (x0, x1, x2, x3) = PolynomialRing(K, ["x0", "x1", "x2", "x3"]);
         end
         return A;
     end
-    #n = size(A); #size of the array A
-    #n = +n;    
-    # Write a multi-dimensional array A collecting all these matrices as entries
-    #A= [L1, L2, L3];
+    #n = size(list(w)); #size of the array A
     # Generate matrices of the form (Lm | Ln)
     # Q = vcat(M, N)
-    
-    for i in 1:n
-        for j in 1:n
-            M = vcat(A[i], A[j]);
-        end
-    end 
-    # Compute rank of each of these matrices
-    # rank (M)
-    # if the rank of the matrix is 2 then save -2 as the (m,n)-th entry of a matrix M
-    # if the rank of the matrix is 3 then save 1 as the (m,n)-th entry of a matrix M
-    # if the rank of the matrix is 4 then save 0 as the (m,n)-th entry of a matrix M
-
-    m = length (M); # size of matrix array M
-    for i in 1:m
-        r = rank(M[i]);
-        if r == 2
-            IM[i,j] = -2;
-        elseif r == 3
-            IM[i,j] = 1;
-        else 
-            IM[i,j] = 0;
-        end
+    M = list(w);
+    function rk(M)
+        N = [];
+        Im = [];
+        for i in 1:size(M)[1]
+            for j in 1:size(M)[1]
+                N = vcat(M[i], M[j]);
+                #rk = rank(N);
+                if rank(N) == 2  # if the rank of the matrix is 2 then save -2 as the (m,n)-th entry of a matrix M
+                    Im[j,i] = -2;
+                elseif rank(N) == 3  # if the rank of the matrix is 3 then save 1 as the (m,n)-th entry of a matrix M
+                    Im[j,i] = 1;
+                else  # if the rank of the matrix is 4 then save 0 as the (m,n)-th entry of a matrix M
+                    Im[j,i] = 0;
+                end
+                rank(Im);
+            end
+        end 
     end
-    # Compute the rank of the 48x48 matrix IM
-    # rank (IM)
-    println(rank(IM));
-#end
+    return(rank(Im));
+end

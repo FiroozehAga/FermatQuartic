@@ -9,7 +9,7 @@ function rkFQ(a)
     K, w= cyclotomic_field(8::Int);
     Kx, (x0, x1, x2, x3) = PolynomialRing(K, ["x0", "x1", "x2", "x3"]);
     function list(w)
-        A = [] #empty array
+        A = [] #empty array that will later contain matrices for the lines on the Fermat Quartic
         for j in [1, 3, 5, 7]
             for k in [1, 3, 5, 7]
                 # Li are matrices with specific entries from the coefficient of the defining polynomial equations
@@ -25,17 +25,17 @@ function rkFQ(a)
     # Generate matrices of the form (Lm | Ln)
     # Q = vcat(M, N)
     M = list(w);
-    N = Array{Int64}(undef, 4,4);
-    Im = Array{Int64}(undef, 48,48);    
+    #N = Array{Int64}(undef, 4,4); 
+    Im = Array{Int64}(undef, 48,48);  #Im is the intersection matrix  
     for i in 1:size(M)[1]
         for j in 1:size(M)[1]
             N = vcat(M[i], M[j]);
             #rk = rank(N);
-            if rank(N) == 2  # if the rank of the matrix is 2 then save -2 as the (m,n)-th entry of a matrix M
+            if rank(N) == 2 # rank() = 2 -> self intersection of lines
                 Im[i, j] = -2;
-            elseif rank(N) == 3  # if the rank of the matrix is 3 then save 1 as the (m,n)-th entry of a matrix M
+            elseif rank(N) == 3  # rank() = 3 -> the two lines intersect at a point
                 Im[i, j] = 1;
-            else  # if the rank of the matrix is 4 then save 0 as the (m,n)-th entry of a matrix M
+            else  # rank() = 4 -> the lines don't intersect
                 Im[i, j] = 0;
             end
         end
@@ -43,7 +43,7 @@ function rkFQ(a)
     rk = println(rank(Im));
     if a == 0
         result = rk;   
-    else
+    else a
         result = Im;
     end
     return result

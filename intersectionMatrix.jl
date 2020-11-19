@@ -21,16 +21,12 @@ function rkFQ(a)
         end
         return A;
     end
-    #n = size(list(w)); #size of the array A
-    # Generate matrices of the form (Lm | Ln)
-    # Q = vcat(M, N)
+    # Generate matrices of the form (Lm | Ln) to find which lines intersect each other
     M = list(w);
-    #N = Array{Int64}(undef, 4,4); 
     Im = Array{Int64}(undef, 48,48);  #Im is the intersection matrix  
     for i in 1:size(M)[1]
         for j in 1:size(M)[1]
             N = vcat(M[i], M[j]);
-            #rk = rank(N);
             if rank(N) == 2 # rank() = 2 -> self intersection of lines
                 Im[i, j] = -2;
             elseif rank(N) == 3  # rank() = 3 -> the two lines intersect at a point

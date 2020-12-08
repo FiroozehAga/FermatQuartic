@@ -1,7 +1,6 @@
 # import Pkg;
 # Pkg.add("Hecke")
 
-using Printf
 using Hecke
 # Below: a is an integer s.t output = rank of Intersection matrix if a=0 
     #else returns the matrix as well as it's rank
@@ -36,9 +35,8 @@ function rkFQ(a)
             end
         end
     end
-    rk = println(rank(Im));
     if a == 0
-        result = rk;   
+        result = rank(Im);   
     else a
         result = Im;
     end
